@@ -24,13 +24,15 @@ class PlacemarkActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             val newPlacemark = PlacemarkModel()
             newPlacemark.title = binding.placemarkTitle.text.toString()
-            if (newPlacemark.title.isNotEmpty()) {
-                i("Add button pressed: " + newPlacemark.title)
+            newPlacemark.description = binding.placemarkDescription.text.toString()
+            if (newPlacemark.title.isNotEmpty() && newPlacemark.description.isNotEmpty()) {
+                i("Add button pressed: " + newPlacemark.title + "; " + newPlacemark.description)
                 placemarks.add(newPlacemark.copy())
-                i("Placemarks: $placemarks")
+                i("Placemarks:")
+                placemarks.forEach { i("${it}") }
             } else {
                 Snackbar
-                    .make(it, "Please enter a title", Snackbar.LENGTH_LONG)
+                    .make(it, "Please enter a title and description", Snackbar.LENGTH_LONG)
                     .show()
             }
        }
