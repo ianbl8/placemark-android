@@ -11,7 +11,7 @@ import timber.log.Timber.Forest.i
 class PlacemarkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlacemarkBinding
-    var placemark = PlacemarkModel()
+    val placemarks = ArrayList<PlacemarkModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +22,12 @@ class PlacemarkActivity : AppCompatActivity() {
         i("Placemark activity started")
 
         binding.btnAdd.setOnClickListener() {
-            placemark.title = binding.placemarkTitle.text.toString()
-            if (placemark.title.isNotEmpty()) {
-                i("Add button pressed: $placemark.title")
+            val newPlacemark = PlacemarkModel()
+            newPlacemark.title = binding.placemarkTitle.text.toString()
+            if (newPlacemark.title.isNotEmpty()) {
+                i("Add button pressed: " + newPlacemark.title)
+                placemarks.add(newPlacemark.copy())
+                i("Placemarks: $placemarks")
             } else {
                 Snackbar
                     .make(it, "Please enter a title", Snackbar.LENGTH_LONG)
