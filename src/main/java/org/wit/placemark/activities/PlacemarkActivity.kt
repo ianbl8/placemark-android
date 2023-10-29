@@ -20,6 +20,8 @@ class PlacemarkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var edit = false
+
         binding = ActivityPlacemarkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,6 +32,7 @@ class PlacemarkActivity : AppCompatActivity() {
         i("Placemark Activity started")
 
         if (intent.hasExtra("placemark_edit")) {
+            edit = true
             @Suppress("DEPRECATION")
             placemark = intent.extras?.getParcelable("placemark_edit")!!
             binding.placemarkTitle.setText(placemark.title)
@@ -40,16 +43,19 @@ class PlacemarkActivity : AppCompatActivity() {
         binding.btnAdd.setOnClickListener() {
             placemark.title = binding.placemarkTitle.text.toString()
             placemark.description = binding.placemarkDescription.text.toString()
-            if (placemark.title.isNotEmpty() && placemark.description.isNotEmpty()) {
-                i("Add button pressed: " + placemark.title + "; " + placemark.description)
-                app.placemarks.create(placemark.copy())
-                setResult(RESULT_OK)
-                finish()
-            } else {
+            if (placemark.title.isEmpty() || placemark.description.isEmpty()) {
                 Snackbar
                     .make(it, R.string.enter_placemarkDetails, Snackbar.LENGTH_LONG)
                     .show()
+            } else {
+                if (edit) {
+                    app.placemarks.update(placemark.copy())
+                } else {
+                    app.placemarks.create(placemark.copy())
+                }
             }
+            setResult(RESULT_OK)
+            finish()
         }
     }
 
