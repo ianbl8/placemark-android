@@ -3,4 +3,5 @@
     <string name="button_addPlacemark">Add Placemark</string>
     <string name="hint_placemarkTitle">Placemark title</string>
     <string name="hint_placemarkDescription">Placemark description</string>
+    <string name="menu_addPlacemark">Add</string>
 </resources>
