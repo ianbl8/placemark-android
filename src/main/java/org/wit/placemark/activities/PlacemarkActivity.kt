@@ -34,6 +34,7 @@ class PlacemarkActivity : AppCompatActivity() {
             placemark = intent.extras?.getParcelable("placemark_edit")!!
             binding.placemarkTitle.setText(placemark.title)
             binding.placemarkDescription.setText(placemark.description)
+            binding.btnAdd.setText(R.string.button_savePlacemark)
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -46,7 +47,7 @@ class PlacemarkActivity : AppCompatActivity() {
                 finish()
             } else {
                 Snackbar
-                    .make(it, "Please enter a title and description", Snackbar.LENGTH_LONG)
+                    .make(it, R.string.enter_placemarkDetails, Snackbar.LENGTH_LONG)
                     .show()
             }
         }
