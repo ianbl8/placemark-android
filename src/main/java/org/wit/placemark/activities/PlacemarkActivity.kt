@@ -14,6 +14,7 @@ import org.wit.placemark.R
 import org.wit.placemark.databinding.ActivityPlacemarkBinding
 import org.wit.placemark.helpers.showImagePicker
 import org.wit.placemark.main.MainApp
+import org.wit.placemark.models.Location
 import org.wit.placemark.models.PlacemarkModel
 import timber.log.Timber.Forest.i
 
@@ -79,7 +80,14 @@ class PlacemarkActivity : AppCompatActivity() {
         registerMapCallback()
 
         binding.btnLocation.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            if (placemark.zoom != 0f) {
+                location.lat = placemark.lat
+                location.lng = placemark.lng
+                location.zoom = placemark.zoom
+            }
             val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
         }
     }
@@ -114,9 +122,22 @@ class PlacemarkActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun registerMapCallback() {
         mapIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            i("Map loaded")
+            result -> when(result.resultCode) {
+                RESULT_OK -> {
+                    if (result.data != null) {
+                        i("Got Location ${result.data.toString()}")
+                        val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                        i("Location == $location")
+                        placemark.lat = location.lat
+                        placemark.lng = location.lng
+                        placemark.zoom = location.zoom
+                    }
+                }
+                RESULT_CANCELED -> { } else -> { }
+            }
         }
     }
 }
