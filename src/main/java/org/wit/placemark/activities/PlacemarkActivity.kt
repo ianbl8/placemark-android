@@ -21,6 +21,7 @@ class PlacemarkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlacemarkBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     var placemark = PlacemarkModel()
     lateinit var app: MainApp
 
@@ -74,6 +75,13 @@ class PlacemarkActivity : AppCompatActivity() {
         }
 
         registerImagePickerCallback()
+
+        registerMapCallback()
+
+        binding.btnLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapActivity::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -103,6 +111,12 @@ class PlacemarkActivity : AppCompatActivity() {
                 }
                 RESULT_CANCELED -> { } else -> { }
             }
+        }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            i("Map loaded")
         }
     }
 }
