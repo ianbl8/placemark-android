@@ -11,10 +11,12 @@ import timber.log.Timber.Forest.i
 class PlacemarkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlacemarkBinding
+    var placemark = PlacemarkModel()
     val placemarks = ArrayList<PlacemarkModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityPlacemarkBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -22,12 +24,11 @@ class PlacemarkActivity : AppCompatActivity() {
         i("Placemark activity started")
 
         binding.btnAdd.setOnClickListener() {
-            val newPlacemark = PlacemarkModel()
-            newPlacemark.title = binding.placemarkTitle.text.toString()
-            newPlacemark.description = binding.placemarkDescription.text.toString()
-            if (newPlacemark.title.isNotEmpty() && newPlacemark.description.isNotEmpty()) {
-                i("Add button pressed: " + newPlacemark.title + "; " + newPlacemark.description)
-                placemarks.add(newPlacemark.copy())
+            placemark.title = binding.placemarkTitle.text.toString()
+            placemark.description = binding.placemarkDescription.text.toString()
+            if (placemark.title.isNotEmpty() && placemark.description.isNotEmpty()) {
+                i("Add button pressed: " + placemark.title + "; " + placemark.description)
+                placemarks.add(placemark.copy())
                 i("Placemarks:")
                 placemarks.forEach { i("${it}") }
             } else {
