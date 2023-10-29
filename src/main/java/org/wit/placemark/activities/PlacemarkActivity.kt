@@ -39,6 +39,10 @@ class PlacemarkActivity : AppCompatActivity() {
                     .make(it, "Please enter a title and description", Snackbar.LENGTH_LONG)
                     .show()
             }
-       }
+        }
+
+        binding.btnCancel.setOnClickListener() {
+            finish()
+        }
     }
 }
