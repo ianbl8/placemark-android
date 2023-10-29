@@ -29,6 +29,13 @@ class PlacemarkActivity : AppCompatActivity() {
         app = application as MainApp
         i("Placemark Activity started")
 
+        if (intent.hasExtra("placemark_edit")) {
+            @Suppress("DEPRECATION")
+            placemark = intent.extras?.getParcelable("placemark_edit")!!
+            binding.placemarkTitle.setText(placemark.title)
+            binding.placemarkDescription.setText(placemark.description)
+        }
+
         binding.btnAdd.setOnClickListener() {
             placemark.title = binding.placemarkTitle.text.toString()
             placemark.description = binding.placemarkDescription.text.toString()
