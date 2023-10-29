@@ -12,7 +12,7 @@ class PlacemarkActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPlacemarkBinding
     var placemark = PlacemarkModel()
-    lateinit var app : MainApp
+    lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +32,8 @@ class PlacemarkActivity : AppCompatActivity() {
                 for (i in app.placemarks.indices) {
                     i("Placemark [$i]: ${this.app.placemarks[i]}")
                 }
+                setResult(RESULT_OK)
+                finish()
             } else {
                 Snackbar
                     .make(it, "Please enter a title and description", Snackbar.LENGTH_LONG)

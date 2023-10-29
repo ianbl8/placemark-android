@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:name=".main.MainApp"
+        android:name="org.wit.placemark.main.MainApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -27,8 +27,7 @@
         </activity>
 
         <activity
-            android:name=".activities.PlacemarkActivity"
-            android:exported="true">
+            android:name=".activities.PlacemarkActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
