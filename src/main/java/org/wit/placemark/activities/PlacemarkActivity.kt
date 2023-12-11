@@ -72,7 +72,7 @@ class PlacemarkActivity : AppCompatActivity() {
         }
 
         binding.chooseImage.setOnClickListener {
-            showImagePicker(imageIntentLauncher)
+            showImagePicker(imageIntentLauncher, this)
         }
 
         registerImagePickerCallback()
@@ -99,6 +99,11 @@ class PlacemarkActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_delete -> {
+                setResult(99)
+                app.placemarks.delete(placemark)
+                finish()
+            }
             R.id.item_cancel -> {
                 finish()
             }
@@ -112,7 +117,9 @@ class PlacemarkActivity : AppCompatActivity() {
                 RESULT_OK -> {
                     if (result.data != null) {
                         i("Got Result ${result.data!!.data}")
-                        placemark.image = result.data!!.data!!
+                        val image = result.data!!.data!!
+                        contentResolver.takePersistableUriPermission(image, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        placemark.image = image
                         Picasso.get().load(placemark.image).into(binding.placemarkImage)
                         binding.chooseImage.setText(R.string.button_changeImage)
                     }
