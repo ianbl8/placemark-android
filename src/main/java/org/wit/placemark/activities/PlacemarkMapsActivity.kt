@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.squareup.picasso.Picasso
 import org.wit.placemark.databinding.ActivityPlacemarkMapsBinding
 import org.wit.placemark.databinding.ContentPlacemarkMapsBinding
 import org.wit.placemark.main.MainApp
@@ -65,6 +66,11 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
     override fun onMarkerClick(marker: Marker): Boolean {
         contentBinding.currentTitle.text = marker.title
         contentBinding.currentDescription.text = marker.snippet
+        val tag = marker.tag as Long
+        val placemark = app.placemarks.findById(tag)
+        if (placemark != null) {
+            Picasso.get().load(placemark.image).into(contentBinding.currentImage)
+        }
         return false
     }
 
