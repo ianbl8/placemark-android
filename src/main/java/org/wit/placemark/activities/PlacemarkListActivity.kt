@@ -43,9 +43,10 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                val launcherIntent = Intent(this, PlacemarkActivity::class.java)
+                val launcherIntent = Intent(this, PlacemarkView::class.java)
                 getResult.launch(launcherIntent)
             }
+
             R.id.item_map -> {
                 val launcherIntent = Intent(this, PlacemarkMapsActivity::class.java)
                 mapIntentLauncher.launch(launcherIntent)
@@ -59,8 +60,10 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0, app.placemarks.findAll().size)
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(
+                    0,
+                    app.placemarks.findAll().size
+                )
             }
         }
 
@@ -72,7 +75,7 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
         }
 
     override fun onPlacemarkClick(placemark: PlacemarkModel, pos: Int) {
-        val launcherIntent = Intent(this, PlacemarkActivity::class.java)
+        val launcherIntent = Intent(this, PlacemarkView::class.java)
         launcherIntent.putExtra("placemark_edit", placemark)
         position = pos
         getClickResult.launch(launcherIntent)
@@ -83,8 +86,10 @@ class PlacemarkListActivity : AppCompatActivity(), PlacemarkListener {
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0, app.placemarks.findAll().size)
+                (binding.recyclerView.adapter)?.notifyItemRangeChanged(
+                    0,
+                    app.placemarks.findAll().size
+                )
             } else if (it.resultCode == 99) {
                 (binding.recyclerView.adapter)?.notifyItemRemoved(position)
             }
