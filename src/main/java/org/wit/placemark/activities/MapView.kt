@@ -2,40 +2,42 @@ package org.wit.placemark.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
 import com.squareup.picasso.Picasso
 import org.wit.placemark.databinding.ActivityPlacemarkMapsBinding
 import org.wit.placemark.databinding.ContentPlacemarkMapsBinding
 import org.wit.placemark.main.MainApp
+import org.wit.placemark.models.PlacemarkModel
 
-class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
+class MapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     private lateinit var binding: ActivityPlacemarkMapsBinding
     private lateinit var contentBinding: ContentPlacemarkMapsBinding
     lateinit var app: MainApp
-    lateinit var map: GoogleMap
+    lateinit var presenter: MapPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        app = application as MainApp
         binding = ActivityPlacemarkMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        app = application as MainApp
+        presenter = MapPresenter(this)
 
         contentBinding = ContentPlacemarkMapsBinding.bind(binding.root)
         contentBinding.mapView.onCreate(savedInstanceState)
-
         contentBinding.mapView.getMapAsync {
-            map = it
-            configureMap()
+            presenter.doPopuplateMap(it)
         }
 
+    }
+
+    fun showPlacemark(placemark: PlacemarkModel) {
+        contentBinding.currentTitle.text = placemark.title
+        contentBinding.currentDescription.text = placemark.description
+        Picasso.get().load(placemark.image).into(contentBinding.currentImage)
     }
 
     override fun onDestroy() {
@@ -64,25 +66,8 @@ class PlacemarkMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListen
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        contentBinding.currentTitle.text = marker.title
-        contentBinding.currentDescription.text = marker.snippet
-        val tag = marker.tag as Long
-        val placemark = app.placemarks.findById(tag)
-        if (placemark != null) {
-            Picasso.get().load(placemark.image).into(contentBinding.currentImage)
-        }
-        return false
-    }
-
-    private fun configureMap() {
-        map.uiSettings.isZoomControlsEnabled = true
-        app.placemarks.findAll().forEach {
-            val loc = LatLng(it.lat, it.lng)
-            val options = MarkerOptions().title(it.title).snippet(it.description).position(loc)
-            map.addMarker(options)?.tag = it.id
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
-        }
-        map.setOnMarkerClickListener(this)
+        presenter.doMarkerSelected(marker)
+        return true
     }
 
 }

@@ -34,7 +34,7 @@ class PlacemarkListPresenter(private val view: PlacemarkListView) {
     }
 
     fun doShowPlacemarksMap() {
-        val launcherIntent = Intent(view, PlacemarkMapsActivity::class.java)
+        val launcherIntent = Intent(view, MapView::class.java)
         mapIntentLauncher.launch(launcherIntent)
     }
 
