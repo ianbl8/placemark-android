@@ -22,6 +22,7 @@ class PlacemarkPresenter(private val view: PlacemarkView) {
     init {
         if (view.intent.hasExtra("placemark_edit")) {
             edit = true
+            @Suppress("DEPRECATION")
             placemark = view.intent.extras?.getParcelable("placemark_edit")!!
             view.showPlacemark(placemark)
         }
@@ -62,7 +63,7 @@ class PlacemarkPresenter(private val view: PlacemarkView) {
             location.lng = placemark.lng
             location.zoom = placemark.zoom
         }
-        val launcherIntent = Intent(view, MapActivity::class.java).putExtra("location", location)
+        val launcherIntent = Intent(view, LocationView::class.java).putExtra("location", location)
         mapIntentLauncher.launch(launcherIntent)
     }
 
@@ -99,6 +100,7 @@ class PlacemarkPresenter(private val view: PlacemarkView) {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             i("Got location ${result.data.toString()}")
+                            @Suppress("DEPRECATION")
                             val location =
                                 result.data!!.extras?.getParcelable<Location>("location")!!
                             i("Location == $location")
