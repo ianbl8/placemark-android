@@ -15,7 +15,7 @@
     <string name="menu_cancelPlacemark">Cancel</string>
     <string name="select_placemark_image">Select placemark image</string>
     <string name="title_activity_map">MapActivity</string>
-    <string name="title_activity_placemark_maps">Map of all Placemarks</string>
+    <string name="title_activity_placemark_maps">Map</string>
     <string name="content_title">Title</string>
     <string name="content_description">Description</string>
 </resources>
