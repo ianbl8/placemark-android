@@ -1,11 +1,13 @@
-package org.wit.placemark.activities
+package org.wit.placemark.views.placemarklist
 
 import android.app.Activity
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import org.wit.placemark.views.placemark.PlacemarkView
 import org.wit.placemark.main.MainApp
 import org.wit.placemark.models.PlacemarkModel
+import org.wit.placemark.views.map.MapView
 
 class PlacemarkListPresenter(private val view: PlacemarkListView) {
 

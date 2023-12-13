@@ -1,4 +1,4 @@
-package org.wit.placemark.activities
+package org.wit.placemark.views.location
 
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity

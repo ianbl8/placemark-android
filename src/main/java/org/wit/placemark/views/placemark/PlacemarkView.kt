@@ -1,4 +1,4 @@
-package org.wit.placemark.activities
+package org.wit.placemark.views.placemark
 
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity

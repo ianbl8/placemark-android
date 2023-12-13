@@ -1,4 +1,4 @@
-package org.wit.placemark.activities
+package org.wit.placemark.views.location
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.placemark.models.Location
 
-class LocationPresenter (val view: LocationView) {
+class LocationPresenter(val view: LocationView) {
 
     var location = Location()
 
