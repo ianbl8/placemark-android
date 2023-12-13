@@ -20,7 +20,7 @@ class LocationView : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_map)
+        setContentView(R.layout.activity_location)
         presenter = LocationPresenter(this)
 
         @Suppress("DEPRECATION")
