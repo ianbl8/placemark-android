@@ -30,24 +30,6 @@ class PlacemarkView : AppCompatActivity() {
         presenter = PlacemarkPresenter(this)
         i("Placemark Activity started")
 
-        binding.btnAdd.setOnClickListener() {
-            if (binding.placemarkTitle.text.toString()
-                    .isEmpty() || binding.placemarkDescription.text.toString().isEmpty()
-            ) {
-                Snackbar
-                    .make(binding.root, R.string.enter_placemarkDetails, Snackbar.LENGTH_LONG)
-                    .show()
-            } else {
-                // presenter.cachePlacemark(binding.placemarkTitle.text.toString(), binding.placemarkDescription.text.toString())
-                presenter.doAddOrSave(
-                    binding.placemarkTitle.text.toString(),
-                    binding.placemarkDescription.text.toString()
-                )
-            }
-            setResult(RESULT_OK)
-            finish()
-        }
-
         binding.chooseImage.setOnClickListener {
             presenter.cachePlacemark(
                 binding.placemarkTitle.text.toString(),
@@ -74,6 +56,10 @@ class PlacemarkView : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_save -> {
+                savePlacemark()
+            }
+
             R.id.item_delete -> {
                 presenter.doDelete()
             }
@@ -88,7 +74,6 @@ class PlacemarkView : AppCompatActivity() {
     fun showPlacemark(placemark: PlacemarkModel) {
         binding.placemarkTitle.setText(placemark.title)
         binding.placemarkDescription.setText(placemark.description)
-        binding.btnAdd.setText(R.string.button_savePlacemark)
         Picasso.get().load(placemark.image).into(binding.placemarkImage)
         if (placemark.image != Uri.EMPTY) {
             binding.chooseImage.setText(R.string.button_changeImage)
@@ -99,5 +84,24 @@ class PlacemarkView : AppCompatActivity() {
         i("Image updated")
         Picasso.get().load(image).into(binding.placemarkImage)
         binding.chooseImage.setText(R.string.button_changeImage)
+    }
+
+    fun savePlacemark() {
+        if (binding.placemarkTitle.text.toString()
+                .isEmpty() || binding.placemarkDescription.text.toString().isEmpty()
+        ) {
+            Snackbar
+                .make(binding.root, R.string.enter_placemarkDetails, Snackbar.LENGTH_LONG)
+                .show()
+        } else {
+            // presenter.cachePlacemark(binding.placemarkTitle.text.toString(), binding.placemarkDescription.text.toString())
+            presenter.doAddOrSave(
+                binding.placemarkTitle.text.toString(),
+                binding.placemarkDescription.text.toString()
+            )
+            setResult(RESULT_OK)
+            finish()
+        }
+
     }
 }
